@@ -28,13 +28,19 @@ func (s Set[T]) Contains(item T) bool {
 	return found
 }
 func (s Set[T]) Add(items ...T) Set[T] {
-	for _, item := range items {
+	return s.AddIter(slices.Values(items))
+}
+func (s Set[T]) AddIter(it iter.Seq[T]) Set[T] {
+	for item := range it {
 		s[item] = struct{}{}
 	}
 	return s
 }
 func (s Set[T]) Remove(items ...T) Set[T] {
-	for _, item := range items {
+	return s.RemoveIter(slices.Values(items))
+}
+func (s Set[T]) RemoveIter(it iter.Seq[T]) Set[T] {
+	for item := range it {
 		delete(s, item)
 	}
 	return s
